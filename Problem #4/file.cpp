@@ -33,22 +33,22 @@ void PrintMatrix(int Matrix[3][3])
     }
 }
 
-void ColSum(int Matrix[3][3], int currentCol)
+void RowSum(int Matrix[3][3], int currentRow)
 {
-    int ColSumArr[3] = {0, 0, 0};
+    int RowSumArr[3] = {0, 0, 0};
     for (int j = 0; j < 3; j++)
     {
-        ColSumArr[currentCol] += Matrix[j][currentCol];
+        RowSumArr[currentRow] += Matrix[currentRow][j];
     }
-    cout << "Col " << currentCol + 1 << " = " << ColSumArr[currentCol] << endl;
+    cout << "Row " << currentRow + 1 << " = " << RowSumArr[currentRow] << endl;
 }
 
 void SumMatrixRow(int Matrix[3][3])
 {
-    cout << "\n\nSum of columns:" << endl;
+    cout << "\n\nSum of rows:" << endl;
     for (int i = 0; i < 3; i++)
     {
-        ColSum(Matrix, i);
+        RowSum(Matrix, i);
     }
 }
 
