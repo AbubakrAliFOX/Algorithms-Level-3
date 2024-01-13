@@ -13,12 +13,12 @@ string ReadString()
     return Str;
 }
 
-char CapitilizeLetter(char Letter)
+char LowercaseLetter(char Letter)
 {
-    return char(toupper(Letter));
+    return char(tolower(Letter));
 }
 
-void CapatilizeSentence(string Sentence)
+void LowercaseSentece(string Sentence)
 {
     bool IsFirstLetter = true;
 
@@ -26,7 +26,7 @@ void CapatilizeSentence(string Sentence)
     {
         if (Sentence[i] != ' ' && IsFirstLetter)
         {
-            Sentence[i] = CapitilizeLetter(Sentence[i]);
+            Sentence[i] = LowercaseLetter(Sentence[i]);
         }
 
 
@@ -40,7 +40,7 @@ int main()
 {
     string Sentence = ReadString();
 
-    CapatilizeSentence(Sentence);
+    LowercaseSentece(Sentence);
 
     return 0;
 }
