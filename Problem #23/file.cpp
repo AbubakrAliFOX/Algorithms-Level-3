@@ -14,14 +14,16 @@ string ReadString()
 
 void PrintFirstLetterOfWord(string Sentence)
 {
-    cout << Sentence[0] << endl;
+    bool FirstLetter = true;
 
     for (short i = 0; i < Sentence.length(); i++)
     {
-        if (Sentence[i] == ' ')
+        if (Sentence[i] != ' ' && FirstLetter)
         {
-            cout << Sentence[i + 1] << endl;
+            cout << Sentence[i] << endl;
         }
+
+        FirstLetter = Sentence[i] == ' ';
     }
 }
 
