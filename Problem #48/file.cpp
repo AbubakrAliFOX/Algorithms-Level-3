@@ -3,15 +3,11 @@
 #include <cctype>
 #include <vector>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
-string ReadString(string Msg)
-{
-    string Str;
-    cout << Msg << "\n";
-    getline(cin >> ws, Str);
-    return Str;
-}
+
+const string FileName = "Bank.txt";
 
 char ReadChar(string Msg)
 {
@@ -20,14 +16,6 @@ char ReadChar(string Msg)
     cin >> charachter;
 
     return charachter;
-}
-
-int ReadNumber(string Msg)
-{
-    int Number;
-    cout << Msg << "\n";
-    cin >> Number;
-    return Number;
 }
 
 struct User
@@ -98,28 +86,18 @@ User ConvertLineToRecord(string DataLine, string Seperator)
 
     UserData.Name = vData[0];
     UserData.AccountNumber = vData[1];
-    UserData.PinCode = stoi(vData[2]);
-    UserData.Phone = stoi(vData[3]);
+    UserData.PinCode = vData[2];
+    UserData.Phone = vData[3];
     UserData.AccountBalance = stof(vData[4]);
 
     return UserData;
-}
-
-void PrintClientRecord(User UserData)
-{
-    cout << "\n\nThe following is the extracted client record:\n";
-    cout << "\nAccout Number: " << UserData.AccountNumber;
-    cout << "\nPin Code     : " << UserData.PinCode;
-    cout << "\nName         : " << UserData.Name;
-    cout << "\nPhone        : " << UserData.Phone;
-    cout << "\nAccount Balance: " << UserData.AccountBalance;
 }
 
 void AddCustomersToFile(string LineData)
 {
     fstream MyFile;
 
-    MyFile.open("Bank.txt", ios::out | ios::app);
+    MyFile.open(FileName, ios::out | ios::app);
 
     if (MyFile.is_open())
     {
@@ -146,12 +124,66 @@ void CreateCustomers()
     } while (Answer == 'y' || Answer == 'Y');
 }
 
+vector<User> GetUsersFromFile()
+{
+    fstream MyFile;
+    vector<User> vAllUsersRecords;
+
+    MyFile.open(FileName, ios::in);
+
+    if (MyFile.is_open())
+    {
+        string Line;
+        while (getline(MyFile, Line))
+        {
+            User CurrentUser = ConvertLineToRecord(Line, "##");
+            vAllUsersRecords.push_back(CurrentUser);
+        }
+
+        MyFile.close();
+    }
+
+    return vAllUsersRecords;
+}
+
+void PrintClientRecord(User UserData)
+{
+    cout << "| " << setw(15) << left << UserData.AccountNumber;
+    cout << "| " << setw(10) << left << UserData.PinCode;
+    cout << "| " << setw(40) << left << UserData.Name;
+    cout << "| " << setw(12) << left << UserData.Phone;
+    cout << "| " << setw(12) << left << UserData.AccountBalance;
+}
+
+void PrintAllCustomer()
+{
+    vector<User> vAllUsers = GetUsersFromFile();
+
+    cout << "\n\t\t\t\t\tClient List (" << vAllUsers.size() << ") Client(s).";
+    cout << "\n_______________________________________________________";
+    cout << "_________________________________________\n"
+         << endl;
+    cout << "| " << left << setw(15) << "Accout Number";
+    cout << "| " << left << setw(10) << "Pin Code";
+    cout << "| " << left << setw(40) << "Client Name";
+    cout << "| " << left << setw(12) << "Phone";
+    cout << "| " << left << setw(12) << "Balance";
+    cout << "\n_______________________________________________________";
+    cout << "_________________________________________\n"
+         << endl;
+    for (User &User : vAllUsers)
+    {
+        PrintClientRecord(User);
+        cout << endl;
+    }
+    cout << "\n_______________________________________________________";
+    cout << "_________________________________________\n"
+         << endl;
+}
+
 int main()
 {
 
-    CreateCustomers();
-    User User1;
-    // cout << ConvertRecordToLine(CreateUser(User1), "--");
-    // PrintClientRecord(ConvertLineToRecord("abubakr--14523--33332--507215259--5000.000000", "--"));
-    return 0;
+    // CreateCustomers();
+    PrintAllCustomer();
 }
