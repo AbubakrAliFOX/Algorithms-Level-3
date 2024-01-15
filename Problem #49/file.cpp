@@ -154,26 +154,6 @@ vector<User> GetUsersFromFile()
     return vAllUsersRecords;
 }
 
-vector<string> GetUsersLineDataFromFile()
-{
-    fstream MyFile;
-    vector<string> vAllUsersLines;
-
-    MyFile.open(FileName, ios::in);
-
-    if (MyFile.is_open())
-    {
-        string Line;
-        while (getline(MyFile, Line))
-        {
-            vAllUsersLines.push_back(Line);
-        }
-
-        MyFile.close();
-    }
-
-    return vAllUsersLines;
-}
 
 void PrintClientRecord(User UserData)
 {
@@ -210,25 +190,28 @@ void PrintAllCustomer()
          << endl;
 }
 
-string FindCustomer(string AccountNumber)
+bool FindCustomer(string AccountNumber, User &CurrentUser)
 {
-    vector<string> vAllUsers = GetUsersLineDataFromFile();
+    vector<User> vAllUsers = GetUsersFromFile();
 
-    for (string &User : vAllUsers)
+    for (User &u : vAllUsers)
     {
-        if (User.find(AccountNumber) != std::string::npos) {
-            return User;
+        if (AccountNumber == u.AccountNumber) {
+           CurrentUser = u;
+           return true;
         }
     }
 
-    return "Customer Not Found";
+    return false;
 }
 
-void PrintCustomerSearchResult (string User) {
-    if(User == "Customer Not Found") {
-        cout << User << endl;
+void PrintCustomerSearchResult (string AccountNumber) {
+    User CurrentUser;
+
+    if (FindCustomer(AccountNumber, CurrentUser)) {
+        PrintClientRecord(CurrentUser);
     } else {
-        PrintClientRecord(ConvertLineToRecord(User, "##"));
+        cout << "\n Client Not Found" << endl;
     }
 
 }
@@ -238,5 +221,5 @@ int main()
     string AccountNumber = ReadString("Please Enter Account Number: ");
     // CreateCustomers();
     // PrintAllCustomer();
-    PrintCustomerSearchResult(FindCustomer(AccountNumber));
+    PrintCustomerSearchResult(AccountNumber);
 }
