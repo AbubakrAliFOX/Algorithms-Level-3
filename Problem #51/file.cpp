@@ -219,7 +219,7 @@ void PrintCustomerSearchResult(string AccountNumber)
     }
 }
 
-void OverrideCutomersToFile(vector<User> vUsers)
+void OverwriteCutomersToFile(vector<User> vUsers)
 {
     fstream MyFile;
 
@@ -249,7 +249,7 @@ void RemoveCustomerFromFile(string AccountNumber)
         }
     }
 
-    OverrideCutomersToFile(vUpdatedUsers);
+    OverwriteCutomersToFile(vUpdatedUsers);
 }
 
 void DeleteCustomer(string AccountNumber)
@@ -305,7 +305,7 @@ void UpdateCustomerInFile(string AccountNumber)
         }
     }
 
-    OverrideCutomersToFile(vAllUsers);
+    OverwriteCutomersToFile(vAllUsers);
 }
 
 void UpdateCustomer(string AccountNumber)
